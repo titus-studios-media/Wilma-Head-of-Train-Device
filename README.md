@@ -23,6 +23,7 @@ This is the "Version 2" of my previous HOTD E2, some of the improvements are;
  * Lower OPS and CPU time (Less laggy and less hard on the server)
  * Rear Car Emergency Function (Yes it actually works)
  * Fixed Many Bugs
+ * [New and Updated EOTD Expression 2](https://github.com/titus-studios-media/TrainLink-II-ATX-End-Of-Train-Device) - https://github.com/titus-studios-media/TrainLink-II-ATX-End-Of-Train-Device
 
 
 # Installation
