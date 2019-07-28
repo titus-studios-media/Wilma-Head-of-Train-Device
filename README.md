@@ -1,5 +1,9 @@
 # Wilma Head of Train Device (HOTD)
 
+![Build-Status](https://img.shields.io/badge/build-passed-brightgreen.svg)
+![Manifest-Version](https://img.shields.io/github/last-commit/titus-studios-media/Wilma-Head-of-Train-Device.svg)
+![Repo-Size](https://img.shields.io/github/repo-size/titus-studios-media/Wilma-Head-of-Train-Device.svg)
+
 A "dumb" ETD can be as simple as a red flag attached to the coupler on the last car of the train, whereas "smart" devices monitor functions such as brake line pressure and accidental separation of the train using a motion sensor, functions that were previously monitored by a crew in the caboose. The ETD transmits data via a telemetry link to the Head-of-Train Device (HTD) in the locomotive, known colloquially among railroaders as a "Wilma", a play on the first name of the wife of cartoon character Fred Flintstone. In Canada, this device is known as a sense and braking unit (SBU).
 
 A typical HTD contains several lights indicating telemetry status and rear end movement, along with a digital readout of the brake line pressure from the ETD. It also contains a toggle switch used to initiate an emergency brake application from the rear end. In modern locomotives, the HTD is built into the locomotive's computer system, and the information is displayed on the engineer's computer screen.
