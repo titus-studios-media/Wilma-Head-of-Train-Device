@@ -7,6 +7,7 @@
 @model
 
 E = entity()
+E:setAlpha(0)
 
 if(first() | dupefinished()){
     
