@@ -64,10 +64,12 @@ To Wire:
 To use the E2, power it up, then the displays should begin flashing; This means the EOTD is not linked to the HOTD, also known as "Radio Break".
 
 To link the EOTD:
-1. First spawn the compatible EOTD E2 *[(Find it here)]()*
+1. First spawn the compatible EOTD E2 *[(Find it here)](https://github.com/titus-studios-media/TrainLink-II-ATX-End-Of-Train-Device)*
 2. Wire the `Railcar[ENTITY]` to the Railcar (or Locomotive) you wish to attach the EOTD to, this allows the EOTD's Emergency Function to... Function. **However it is not required.**
 3. Get out your Crowbar, and press "E" while looking at the EOTD, this is the Power and mode selector. Press once to start the EOTD with no flashing light, Press it again to make the light flash, and one more time to power the EOTD down.
 4. To actually link it, you can either; Wire it (Manually), or use the built in "Wireless / Radio" Mode.
+
+**NOTE:** The old EOTD Expression 2 is NOT compatible with this!
 
 To use the "Wireless / Radio" Mode;
 1. Look at the EOTD
