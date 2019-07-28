@@ -10,6 +10,8 @@ A typical HTD contains several lights indicating telemetry status and rear end m
 
 Railroads have strict government-approved air brake testing procedures for various circumstances when assembling trains or switching out cars en route. After a cut is made between cars in a train and the train is rejoined, in addition to other tests, the crew must verify that the brakes apply and release on the rear car (to ensure that all of the brake hoses are connected and the angle cocks, or valves, are opened). In most cases, the engineer is able to use information from the ETD to verify that the air pressure reduces and increases at the rear of the train accordingly, indicating proper brake pipe continuity. This device is said to constitute a fail-safe condition.
 
+![kiwirail_hotd_dfb](https://i.imgur.com/ixr7Wrd.jpg)
+
 # New Features
 
 This is the "Version 2" of my previous HOTD E2, some of the improvements are;
@@ -52,6 +54,7 @@ Grovesteetgman's The Big Propper Train Shared Texture Pack (Proppertextures)
 
 If you're currently in-game in Garry's Mod, open the E2 Editor, and click the "Update" button under the list of E2s on the left hand side of the window.
 
+![hotd](https://i.imgur.com/Vm8YoD1.jpg)
 
 # Wiring
 
@@ -89,6 +92,7 @@ To Un-Link Type; `//unlink eotd` or `//unlink eot`
 
 **NOTE:** The linking function does not work if the EOTD is parented. Link it first before you parent it.
 
+![radio_link_fig1](https://i.imgur.com/lb2warm.jpg)
 
 # Verifying Connection
 
@@ -97,6 +101,7 @@ To Verify that the link worked, head to the HOTD and see if the displays are sti
 
 #### You're Done!
 
+![eotd](https://i.imgur.com/Ub22UEe.jpg)
 
 # Thank You!
 Thank you for installing Titus's Wilma Head of Train Device Expression 2.
