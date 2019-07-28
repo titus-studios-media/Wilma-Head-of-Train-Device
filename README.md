@@ -59,7 +59,9 @@ To Wire:
 1. Begin by spawning the E2 on the ground, and placing it somewhere in the Locomotive.
 2. Wire `RLCPT[ENTITY]` to the RLC Gamma (PT2) Chip
 3. Wire `On` to the MU or Battery Switch
-4. (Optional), Wire `Emergency` to a button or key to enable you to apply the Emergency from the rear car.
+4. (Optional), Wire `Emergency` to a button or key to enable you to apply the Emergency Brake from the rear car. (Goes Faster)
+5. (Optional), Wire `LocoEmrg` to the PT Gamma (PT2) Chips Emergency output.
+6. (Optional), Wire the RLCs ``Emergency`` **Input** to the HOTDs `LocomotiveEmrgBrk`, this allows the RLC to go into Emergency if the HOTDs Emergency button is pressed.
 
 **NOTE:** This E2 can be Parented!
 
