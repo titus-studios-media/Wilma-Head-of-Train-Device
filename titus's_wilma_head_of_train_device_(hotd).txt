@@ -1,0 +1,712 @@
+@name Titus's Wilma Head of Train Device (HOTD)
+@inputs [RLCPT]:entity On Emergency [EOTD_DATA_LINK_RX]:array
+@outputs Pressure Fluctuation BrakePipeSmoothed TotalBPVol [EOTD_DATA_LINK_TX HOTD_DATA_LINK]:array Acceleration
+@persist BrakePipe RearPressureDecrease RearPressureFluctuationLevelOut RearPressureFluctuationMin RearPressureFluctuationMax DataTX_Rate DataRX_Rate SmoothTable:table Smooth DefaultVal ID:string FlowRate TotalBPVol
+@persist BrakePipeVol BPLevelOut Speed0 Speed1 Acceleration [PressureString AccelerationString]:string [ID_Code]:string CFM CarCount Linked
+@trigger 
+@model
+
+E = entity()
+
+if(first() | dupefinished()){
+    
+#---- Holo Data
+
+    A = 1
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoScale(A,vec(0.3))
+    holoModel(A, "models/holograms/hq_rcube.mdl")
+    holoMaterial(A,"models/proppertextures/enamel_black")
+    holoPos(A,E:toWorld(vec(-2.7,0,0)))
+    holoAng(A,E:toWorld(ang(180,90,-90)))
+    
+    A = 2
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoScale(A,vec(0.3))
+    holoModel(A, "models/holograms/hq_rcube.mdl")
+    holoMaterial(A,"models/proppertextures/enamel_black")
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(180,90,-90)))
+    holoClipEnabled(A,1,1)     
+    holoClip(A,1,vec(0,0,-1.5),vec(0,0,1),0)
+    holoClipEnabled(A,2,1)     
+    holoClip(A,2,vec(0,0,1.5),vec(0,0,-1),0)
+    
+    A = 3
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoScale(A,vec(0.3))
+    holoModel(A, "models/holograms/hq_rcube.mdl")
+    holoMaterial(A,"models/proppertextures/enamel_black")
+    holoPos(A,E:toWorld(vec(2.7,0,0)))
+    holoAng(A,E:toWorld(ang(180,90,-90)))
+    
+    A = 4
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoScale(A,vec(0.3))
+    holoModel(A, "models/holograms/hq_rcube.mdl")
+    holoMaterial(A,"models/proppertextures/enamel_black")
+    holoPos(A,E:toWorld(vec(-2.7,-2.7,0)))
+    holoAng(A,E:toWorld(ang(180,90,-90)))
+    
+    A = 5
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoScale(A,vec(0.3))
+    holoModel(A, "models/holograms/hq_rcube.mdl")
+    holoMaterial(A,"models/proppertextures/enamel_black")
+    holoPos(A,E:toWorld(vec(0,-2.7,0)))
+    holoAng(A,E:toWorld(ang(180,90,-90)))
+    holoClipEnabled(A,1,1)     
+    holoClip(A,1,vec(0,0,-1.5),vec(0,0,1),0)
+    holoClipEnabled(A,2,1)     
+    holoClip(A,2,vec(0,0,1.5),vec(0,0,-1),0)
+    
+    A = 6
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoScale(A,vec(0.3))
+    holoModel(A, "models/holograms/hq_rcube.mdl")
+    holoMaterial(A,"models/proppertextures/enamel_black")
+    holoPos(A,E:toWorld(vec(2.7,-2.7,0)))
+    holoAng(A,E:toWorld(ang(180,90,-90)))
+    
+#---- Rear-End PSI Display
+
+    A = 7
+    holoCreate(A)
+    holoParent(A,E)
+    holoModel(A, "models/monkcabdetailpack/misc/elspeedo.mdl")
+    holoColor(A,vec(255))
+    holoScale(A,vec(0.55))
+    holoPos(A,E:toWorld(vec(-0.7,0.26,2)))
+    holoAng(A,E:toWorld(ang(0,180,0)))
+    holoEntity(A):setSubMaterial(1,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(2,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(3,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(4,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(5,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(6,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(7,"models/proppertextures/invisible")
+    #holoEntity(A):setSubMaterial(10,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(11,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(12,"models/proppertextures/invisible")
+    
+#---- Feet Accel (Feet/Min) Display
+
+    A = 8
+    holoCreate(A)
+    holoParent(A,E)
+    holoModel(A, "models/monkcabdetailpack/misc/elspeedo.mdl")
+    holoColor(A,vec(255))
+    holoScale(A,vec(0.55))
+    holoPos(A,E:toWorld(vec(2.27,0.26,2)))
+    holoAng(A,E:toWorld(ang(0,180,0)))
+    holoEntity(A):setSubMaterial(1,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(2,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(3,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(4,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(5,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(6,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(7,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(12,"models/proppertextures/invisible")
+    
+    A = 9
+    holoCreate(A)
+    holoParent(A,E)
+    holoModel(A, "models/monkcabdetailpack/misc/elspeedo.mdl")
+    holoColor(A,vec(255))
+    holoScale(A,vec(0.55))
+    holoPos(A,E:toWorld(vec(2.7,0.26,2)))
+    holoAng(A,E:toWorld(ang(0,180,0)))
+    holoEntity(A):setSubMaterial(1,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(2,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(3,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(4,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(5,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(6,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(7,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(8,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(9,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(10,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(12,"models/proppertextures/invisible")
+    
+#---- Message Display 1
+
+    A = 10
+    holoCreate(A)
+    holoParent(A,E)
+    holoModel(A, "models/monkcabdetailpack/misc/elspeedo.mdl")
+    holoColor(A,vec(255))
+    holoScale(A,vec(0.55))
+    holoPos(A,E:toWorld(vec(0.335,0.26,2)))
+    holoAng(A,E:toWorld(ang(0,180,0)))
+    holoEntity(A):setSubMaterial(1,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(2,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(3,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(4,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(5,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(6,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(7,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(8,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(12,"models/proppertextures/invisible")
+    
+#---- Message Display 2
+
+    A = 11
+    holoCreate(A)
+    holoParent(A,E)
+    holoModel(A, "models/monkcabdetailpack/misc/elspeedo.mdl")
+    holoColor(A,vec(255))
+    holoScale(A,vec(0.45))
+    holoPos(A,E:toWorld(vec(0.5,0.56,0.65)))
+    holoAng(A,E:toWorld(ang(0,180,0)))
+    holoEntity(A):setSubMaterial(1,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(2,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(3,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(4,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(5,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(6,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(7,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(12,"models/proppertextures/invisible")
+    
+#---- Emergency Switch
+
+    A = 12
+    holoCreate(A)
+    holoParent(A,E)
+    holoModel(A, "models/infra/weapons/w_detonator.mdl")
+    holoColor(A,vec(255))
+    holoScale(A,vec(0.4,0.6,0.7))
+    holoPos(A,E:toWorld(vec(-3.65,0.95,-0.8)))
+    holoAng(A,E:toWorld(ang(0,0,-90)))
+    holoClipEnabled(A,1,1)     
+    holoClip(A,1,vec(0,-1.3,0),vec(0,1,0),0)
+    holoClipEnabled(A,2,1)     
+    holoClip(A,2,vec(0,0.3,0),vec(0,-1,0),0)
+    holoClipEnabled(A,3,1)     
+    holoClip(A,3,vec(-0.3,0,0),vec(1,0,0),0)
+    
+#---- ID Code Slot
+
+    A = 13
+    holoCreate(A)
+    holoParent(A,E)
+    holoModel(A, "models/magtrainslocos/functiondisplay.mdl")
+    holoColor(A,vec(255))
+    holoScale(A,vec(0.08,0.127,0.055))
+    holoPos(A,E:toWorld(vec(-2.48,1.5,0.4)))
+    holoAng(A,E:toWorld(ang(0,90,0)))
+    
+#---- ID Code Number Wheels
+
+    A = 14
+    holoCreate(A)
+    holoParent(A,E)
+    holoModel(A, "models/jazzie/trains/number_wheel.mdl")
+    holoColor(A,vec(255))
+    holoScale(A,vec(0.03))
+    holoPos(A,E:toWorld(vec(-2.05,1.4,0.4)))
+    holoAng(A,E:toWorld(ang(-17,90,0)))
+    
+    A = 15
+    holoCreate(A)
+    holoParent(A,E)
+    holoModel(A, "models/jazzie/trains/number_wheel.mdl")
+    holoColor(A,vec(255))
+    holoScale(A,vec(0.03))
+    holoPos(A,E:toWorld(vec(-2.25,1.4,0.4)))
+    holoAng(A,E:toWorld(ang(-17,90,0)))
+    
+    A = 16
+    holoCreate(A)
+    holoParent(A,E)
+    holoModel(A, "models/jazzie/trains/number_wheel.mdl")
+    holoColor(A,vec(255))
+    holoScale(A,vec(0.03))
+    holoPos(A,E:toWorld(vec(-2.47,1.4,0.4)))
+    holoAng(A,E:toWorld(ang(-17,90,0)))
+    
+    A = 17
+    holoCreate(A)
+    holoParent(A,E)
+    holoModel(A, "models/jazzie/trains/number_wheel.mdl")
+    holoColor(A,vec(255))
+    holoScale(A,vec(0.03))
+    holoPos(A,E:toWorld(vec(-2.69,1.4,0.4)))
+    holoAng(A,E:toWorld(ang(-17,90,0)))
+    
+    A = 18
+    holoCreate(A)
+    holoParent(A,E)
+    holoModel(A, "models/jazzie/trains/number_wheel.mdl")
+    holoColor(A,vec(255))
+    holoScale(A,vec(0.03))
+    holoPos(A,E:toWorld(vec(-2.91,1.4,0.4)))
+    holoAng(A,E:toWorld(ang(-17,90,0)))
+    
+#---- Misc Buttons
+
+    A = 19
+    holoCreate(A)
+    holoParent(A,E)
+    holoModel(A, "models/monkcabdetailpack/misc/elspeedo.mdl")
+    holoColor(A,vec(255))
+    holoScale(A,vec(0.35))
+    holoPos(A,E:toWorld(vec(0,0.67,0.5)))
+    holoAng(A,E:toWorld(ang(0,180,0)))
+    holoClipEnabled(A,1,1)
+    holoClip(A,1,vec(0,0,0),vec(1,0,0),0)
+    holoEntity(A):setSubMaterial(1,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(4,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(5,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(6,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(7,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(8,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(9,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(10,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(11,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(12,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(13,"models/proppertextures/invisible")
+    
+    A = 20
+    holoCreate(A)
+    holoParent(A,E)
+    holoModel(A, "models/monkcabdetailpack/misc/elspeedo.mdl")
+    holoColor(A,vec(255))
+    holoScale(A,vec(0.35))
+    holoPos(A,E:toWorld(vec(-0.7,0.67,0.5)))
+    holoAng(A,E:toWorld(ang(0,180,0)))
+    holoClipEnabled(A,1,1)
+    holoClip(A,1,vec(0,0,0),vec(1,0,0),0)
+    holoEntity(A):setSubMaterial(1,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(4,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(5,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(6,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(7,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(8,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(9,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(10,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(11,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(12,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(13,"models/proppertextures/invisible")
+    
+    A = 21
+    holoCreate(A)
+    holoParent(A,E)
+    holoModel(A, "models/monkcabdetailpack/misc/elspeedo.mdl")
+    holoColor(A,vec(255))
+    holoScale(A,vec(0.35))
+    holoPos(A,E:toWorld(vec(-1.4,0.67,0.5)))
+    holoAng(A,E:toWorld(ang(0,180,0)))
+    holoClipEnabled(A,1,1)
+    holoClip(A,1,vec(0,0,0),vec(1,0,0),0)
+    holoEntity(A):setSubMaterial(1,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(4,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(5,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(6,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(7,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(8,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(9,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(10,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(11,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(12,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(13,"models/proppertextures/invisible")
+    
+    A = 22
+    holoCreate(A)
+    holoParent(A,E)
+    holoModel(A, "models/monkcabdetailpack/misc/elspeedo.mdl")
+    holoColor(A,vec(255))
+    holoScale(A,vec(0.35))
+    holoPos(A,E:toWorld(vec(4.5,0.67,0.5)))
+    holoAng(A,E:toWorld(ang(0,180,0)))
+    holoClipEnabled(A,1,1)
+    holoClip(A,1,vec(0,0,0),vec(1,0,0),0)
+    holoEntity(A):setSubMaterial(1,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(4,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(5,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(6,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(7,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(8,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(9,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(10,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(11,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(12,"models/proppertextures/invisible")
+    holoEntity(A):setSubMaterial(13,"models/proppertextures/invisible")
+    
+#---- PSI Decimal Dots
+
+    A = 23
+    holoCreate(A, E:toWorld(vec(-1.15,1.8,0.41)), vec(1),
+    E:toWorld(ang(0,90,0)))
+    holoColor(A,vec(255))
+    holoDisableShading(A,1)
+    holoMaterial(A,"models/monkcabdetailpack/speedo/speed_5")
+    holoModel(A, "models/sprops/misc/alphanum/alphanum_prd.mdl")
+    holoScale(A, vec(0.11,0.02,0.04))
+    holoParent(A,E) 
+    holoBodygroup(A,0,3)
+    
+    A = 24
+    holoCreate(A, E:toWorld(vec(1.815,1.8,0.41)), vec(1),
+    E:toWorld(ang(0,90,0)))
+    holoColor(A,vec(255))
+    holoDisableShading(A,1)
+    holoMaterial(A,"models/monkcabdetailpack/speedo/speed_5")
+    holoModel(A, "models/sprops/misc/alphanum/alphanum_prd.mdl")
+    holoScale(A, vec(0.11,0.02,0.04))
+    holoParent(A,E) 
+    holoBodygroup(A,0,3)
+    
+    A = 25
+    holoCreate(A, E:toWorld(vec(3.4,1.8,0.6)), vec(1),
+    E:toWorld(ang(0,90,0)))
+    holoColor(A,vec(255))
+    holoDisableShading(A,1)
+    holoMaterial(A,"models/monkcabdetailpack/speedo/speed_5")
+    holoModel(A, "models/sprops/misc/alphanum/alphanum_prd.mdl")
+    holoScale(A, vec(0.11,0.07,0.04))
+    holoParent(A,E) 
+    holoBodygroup(A,0,3)  
+    
+    
+#---- Screen Function Data
+
+function void entity:psiUpdate(){
+    
+if(Pressure < 10){
+    holoEntity(7):setSubMaterial(10,"models/monkcabdetailpack/speedo/speed_0")
+    holoEntity(7):setSubMaterial(9,"models/monkcabdetailpack/speedo/speed_" + PressureString[1])
+    holoEntity(7):setSubMaterial(8,"models/monkcabdetailpack/speedo/speed_" + (PressureString[3] ? PressureString[3] : "0"))
+}
+
+
+if(Pressure > 10){
+    holoEntity(7):setSubMaterial(10,"models/monkcabdetailpack/speedo/speed_" + PressureString[1])
+    holoEntity(7):setSubMaterial(9,"models/monkcabdetailpack/speedo/speed_" + PressureString[2])
+    holoEntity(7):setSubMaterial(8,"models/monkcabdetailpack/speedo/speed_" + (PressureString[4] ? PressureString[4] : "0"))
+}
+elseif(Pressure == 10){
+    holoEntity(7):setSubMaterial(10,"models/monkcabdetailpack/speedo/speed_" + PressureString[1])
+    holoEntity(7):setSubMaterial(9,"models/monkcabdetailpack/speedo/speed_" + PressureString[2])
+    holoEntity(7):setSubMaterial(8,"models/monkcabdetailpack/speedo/speed_" + (PressureString[4] ? PressureString[4] : "0"))
+}
+
+if(Pressure < 1){
+    holoEntity(7):setSubMaterial(10,"models/monkcabdetailpack/speedo/speed_0")
+    holoEntity(7):setSubMaterial(9,"models/monkcabdetailpack/speedo/speed_0")
+    holoEntity(7):setSubMaterial(8,"models/monkcabdetailpack/speedo/speed_" + (PressureString[1] ? PressureString[1] : "0"))
+}
+}
+
+
+
+function void entity:feetUpdate(){    
+    
+if(AccelerationString:toNumber() < 10){
+    holoEntity(8):setSubMaterial(11,"models/monkcabdetailpack/speedo/speed_0")
+    holoEntity(8):setSubMaterial(10,"models/monkcabdetailpack/speedo/speed_0")
+    holoEntity(8):setSubMaterial(9,"models/monkcabdetailpack/speedo/speed_" + AccelerationString[1])
+    holoEntity(8):setSubMaterial(8,"models/monkcabdetailpack/speedo/speed_" + (AccelerationString[3] ? AccelerationString[3] : "0"))
+}
+elseif(AccelerationString:toNumber() > 10){
+    holoEntity(8):setSubMaterial(11,"models/monkcabdetailpack/speedo/speed_0")
+    holoEntity(8):setSubMaterial(10,"models/monkcabdetailpack/speedo/speed_" + AccelerationString[1])
+    holoEntity(8):setSubMaterial(9,"models/monkcabdetailpack/speedo/speed_" + AccelerationString[2])
+    holoEntity(8):setSubMaterial(8,"models/monkcabdetailpack/speedo/speed_" + (AccelerationString[4] ? AccelerationString[4] : "0"))
+}
+elseif(AccelerationString:toNumber() == 10){
+    holoEntity(8):setSubMaterial(11,"models/monkcabdetailpack/speedo/speed_0")
+    holoEntity(8):setSubMaterial(10,"models/monkcabdetailpack/speedo/speed_" + AccelerationString[1])
+    holoEntity(8):setSubMaterial(9,"models/monkcabdetailpack/speedo/speed_" + AccelerationString[2])
+    holoEntity(8):setSubMaterial(8,"models/monkcabdetailpack/speedo/speed_" + (AccelerationString[4] ? AccelerationString[4] : "0"))
+}
+
+if(AccelerationString:toNumber() > 100){
+    holoEntity(8):setSubMaterial(11,"models/monkcabdetailpack/speedo/speed_" + AccelerationString[1])
+    holoEntity(8):setSubMaterial(10,"models/monkcabdetailpack/speedo/speed_" + AccelerationString[2])
+    holoEntity(8):setSubMaterial(9,"models/monkcabdetailpack/speedo/speed_" + AccelerationString[3])
+    holoEntity(8):setSubMaterial(8,"models/monkcabdetailpack/speedo/speed_" + (AccelerationString[5] ? AccelerationString[5] : "0"))
+}
+elseif(AccelerationString:toNumber() < 1){
+    holoEntity(8):setSubMaterial(11,"models/monkcabdetailpack/speedo/speed_0")
+    holoEntity(8):setSubMaterial(10,"models/monkcabdetailpack/speedo/speed_0")
+    holoEntity(8):setSubMaterial(9,"models/monkcabdetailpack/speedo/speed_0")
+    holoEntity(8):setSubMaterial(8,"models/monkcabdetailpack/speedo/speed_" + (AccelerationString[3] ? AccelerationString[3] : "0"))
+}
+
+if(Acceleration > 0){
+holoAlpha(25,0)
+}
+elseif(Acceleration < 0){
+holoAlpha(25,255)
+}
+
+if(Acceleration == 0){
+holoAlpha(25,0)
+holoEntity(8):setSubMaterial(11,"models/monkcabdetailpack/speedo/speed_0")
+holoEntity(8):setSubMaterial(10,"models/monkcabdetailpack/speedo/speed_0")
+holoEntity(8):setSubMaterial(9,"models/monkcabdetailpack/speedo/speed_0")
+holoEntity(8):setSubMaterial(8,"models/monkcabdetailpack/speedo/speed_0")
+}
+}
+
+function void entity:radioBreak(){    
+timer("radiobreak1",1000)
+
+if(clk("radiobreak1")){
+    holoEntity(7):setSubMaterial(10,"models/monkcabdetailpack/speedo/speed_0")
+    holoEntity(7):setSubMaterial(9,"models/monkcabdetailpack/speedo/speed_0")
+    holoEntity(7):setSubMaterial(8,"models/monkcabdetailpack/speedo/speed_0")
+    holoEntity(8):setSubMaterial(11,"models/monkcabdetailpack/speedo/speed_0")
+    holoEntity(8):setSubMaterial(10,"models/monkcabdetailpack/speedo/speed_0")
+    holoEntity(8):setSubMaterial(9,"models/monkcabdetailpack/speedo/speed_0")
+    holoEntity(8):setSubMaterial(8,"models/monkcabdetailpack/speedo/speed_0")  
+    holoAlpha(23,255)
+    holoAlpha(24,255)
+    holoAlpha(25,255)  
+    timer("radiobreak2",1000)
+}  
+if(clk("radiobreak2")){
+    holoEntity(7):setSubMaterial(10,"models/monkcabdetailpack/speedo/speed_off")
+    holoEntity(7):setSubMaterial(9,"models/monkcabdetailpack/speedo/speed_off")
+    holoEntity(7):setSubMaterial(8,"models/monkcabdetailpack/speedo/speed_off")
+    holoEntity(8):setSubMaterial(11,"models/monkcabdetailpack/speedo/speed_off")
+    holoEntity(8):setSubMaterial(10,"models/monkcabdetailpack/speedo/speed_off")
+    holoEntity(8):setSubMaterial(9,"models/monkcabdetailpack/speedo/speed_off")
+    holoEntity(8):setSubMaterial(8,"models/monkcabdetailpack/speedo/speed_off")    
+    holoAlpha(23,0)
+    holoAlpha(24,0)
+    holoAlpha(25,0)
+    timer("radiobreak1",1000)
+}  
+}
+
+
+#---- Expression 2 Data
+    
+RearPressureDecrease = 7
+RearPressureFluctuationMin = 4
+RearPressureFluctuationMax = 6
+
+DataTX_Rate = 1
+DataRX_Rate = 3
+
+FlowRate = CFM+1
+BrakePipeVol = 2.7
+TotalBPVol = BrakePipeVol*max(CarCount,1)
+
+
+function void entity:dataRefresh(){
+
+Fluctuation = random(RearPressureFluctuationMin,RearPressureFluctuationMax)
+
+if(Pressure < RearPressureDecrease){
+    Pressure = BrakePipeSmoothed
+}
+else{
+    Pressure = (BrakePipeSmoothed-RearPressureDecrease)+Fluctuation
+}
+
+
+TotalBPVol = BrakePipeVol*max(CarCount,1)
+
+PressureString = Pressure:toString()
+AccelerationString = (abs(Acceleration)):toString()
+
+}
+
+
+function number smooth(Var,SmoothAmount,ID:string,DefaultVal) {
+    
+    if(!SmoothTable:exists(ID)) {
+        SmoothTable[ID,number] = DefaultVal
+    }
+    local Smooth = SmoothTable[ID,number]    
+    Smooth += (Var-Smooth) / SmoothAmount
+    SmoothTable[ID,number] = Smooth
+    return Smooth
+}   
+
+ 
+} #dupefinished block end
+
+
+RLCPTW = RLCPT:wirelink()
+BrakePipe = RLCPTW["BrakePipe",number]
+CarCount = RLCPTW["CarCount",number]
+CFM = RLCPTW["CFM",number]
+MPH = RLCPTW["MPH",number]
+
+
+
+if(changed(On)&On){
+    holoEntity(7):setSubMaterial(10,"models/monkcabdetailpack/speedo/speed_0")
+    holoEntity(7):setSubMaterial(9,"models/monkcabdetailpack/speedo/speed_0")
+    holoEntity(7):setSubMaterial(8,"models/monkcabdetailpack/speedo/speed_0")
+    holoEntity(8):setSubMaterial(11,"models/monkcabdetailpack/speedo/speed_0")
+    holoEntity(8):setSubMaterial(10,"models/monkcabdetailpack/speedo/speed_0")
+    holoEntity(8):setSubMaterial(9,"models/monkcabdetailpack/speedo/speed_0")
+    holoEntity(8):setSubMaterial(8,"models/monkcabdetailpack/speedo/speed_0")
+    holoAlpha(23,255)
+    holoAlpha(24,255)
+    holoAlpha(25,0)
+    timer("DataRX",(DataRX_Rate*1000))
+    timer("DataTX",(DataTX_Rate*1000))  
+}
+elseif(changed(!On)&!On){
+    holoEntity(7):setSubMaterial(10,"models/monkcabdetailpack/speedo/speed_off")
+    holoEntity(7):setSubMaterial(9,"models/monkcabdetailpack/speedo/speed_off")
+    holoEntity(7):setSubMaterial(8,"models/monkcabdetailpack/speedo/speed_off")
+    holoEntity(8):setSubMaterial(11,"models/monkcabdetailpack/speedo/speed_off")
+    holoEntity(8):setSubMaterial(10,"models/monkcabdetailpack/speedo/speed_off")
+    holoEntity(8):setSubMaterial(9,"models/monkcabdetailpack/speedo/speed_off")
+    holoEntity(8):setSubMaterial(8,"models/monkcabdetailpack/speedo/speed_off")
+    holoAlpha(23,0)
+    holoAlpha(24,0)
+    holoAlpha(25,0)
+    stoptimer("DataRX")
+    stoptimer("DataTX")
+}
+
+interval(500)
+
+BrakePipeSmoothed = smooth(BrakePipe,(TotalBPVol*FlowRate),"DataFlow",0)
+
+if(Speed0 == 0){
+    Speed1 = MPH
+    timer("min",1000)
+    Speed0 = 1
+}
+if(clk("min")){
+    Speed2 = MPH
+    Acceleration = (Speed2 - Speed1) * 3.280
+    Speed0 = 0
+} 
+
+if(clk("DataRX")){
+E:dataRefresh()
+if(Linked){
+E:psiUpdate()
+}
+timer("DataRX",(DataRX_Rate*1000))    
+}
+
+if(clk("DataTX")){
+if(Linked){
+E:feetUpdate()  
+}
+timer("DataTX",(DataTX_Rate*1000))    
+}
+
+
+if(On & Linked){
+if(Pressure < 0.1){
+    holoEntity(7):setSubMaterial(10,"models/monkcabdetailpack/speedo/speed_0")
+    holoEntity(7):setSubMaterial(9,"models/monkcabdetailpack/speedo/speed_0")
+    holoEntity(7):setSubMaterial(8,"models/monkcabdetailpack/speedo/speed_0")
+}
+}
+
+if(changed(EOTD_DATA_LINK_RX[1,number])){
+holoAng(18,entity():toWorld(ang(-17+(EOTD_DATA_LINK_RX[5,number] * 36),90,0)))
+holoAng(17,entity():toWorld(ang(-17+(EOTD_DATA_LINK_RX[4,number] * 36),90,0)))
+holoAng(16,entity():toWorld(ang(-17+(EOTD_DATA_LINK_RX[3,number] * 36),90,0)))
+holoAng(15,entity():toWorld(ang(-17+(EOTD_DATA_LINK_RX[2,number] * 36),90,0)))
+holoAng(14,entity():toWorld(ang(-17+(EOTD_DATA_LINK_RX[1,number] * 36),90,0)))
+}
+
+#---- Radio Break Function
+
+if(!->EOTD_DATA_LINK_RX & EOTD_DATA_LINK_TX){
+E:radioBreak()
+Linked = 0
+}
+
+#---- Automatic Wiring!!! yay! - chat commands and crap you keep asking me to do...
+
+runOnChat(1)
+
+ID_Code = "nil"
+
+if(chatClk(owner())){
+        LS = owner():lastSaid()
+        Command = LS:explode(" ")
+    
+        if(Command[1,string] == "//link"){
+            if(Command[2,string] == "eotd"){
+            EH = owner():eyeTrace():entity()
+            #print(owner():eyeTrace():entity())
+            
+            E:createWire(EH,"EOTD_DATA_LINK_RX","EOTD_DATA_LINK_RX")
+            EH:createWire(E,"EOTD_DATA_LINK_TX","EOTD_DATA_LINK_TX")
+            Linked = 1
+            
+            # Sound & Hint / Message
+            soundPlay(1,0,"garrysmod/balloon_pop_cute.wav")
+            hint("End Of Train Device (EOTD) Linked to Head Of Train Device (HOTD)",5)
+            hideChat(1)
+            
+        }
+        if(Command[2,string] == "eot"){
+            EH = owner():eyeTrace():entity()
+            #print(owner():eyeTrace():entity())
+            
+            E:createWire(EH,"EOTD_DATA_LINK_RX","EOTD_DATA_LINK_RX")
+            EH:createWire(E,"EOTD_DATA_LINK_TX","EOTD_DATA_LINK_TX")
+            Linked = 1
+            
+            # Sound & Hint / Message
+            soundPlay(1,0,"garrysmod/balloon_pop_cute.wav")
+            hint("End Of Train Device (EOTD) Linked to Head Of Train Device (HOTD)",5)
+            hideChat(1)
+            
+        }
+        }
+        
+        if(Command[1,string] == "//unlink"){
+            if(Command[2,string] == "eotd"){
+            EH = owner():eyeTrace():entity()
+            #print(owner():eyeTrace():entity())
+            
+            E:deleteWire("EOTD_DATA_LINK_RX")
+            EH:deleteWire("EOTD_DATA_LINK_TX")
+            Linked = 0
+            
+            # Sound & Hint / Message
+            soundPlay(1,0,"garrysmod/balloon_pop_cute.wav")
+            hint("End Of Train Device (EOTD) Un-Linked from Head Of Train Device (HOTD)",5)
+            hideChat(1)
+            
+        }
+        if(Command[2,string] == "eot"){
+            EH = owner():eyeTrace():entity()
+            #print(owner():eyeTrace():entity())
+            
+            E:deleteWire("EOTD_DATA_LINK_RX")
+            EH:deleteWire("EOTD_DATA_LINK_TX")
+            Linked = 0
+            
+            # Sound & Hint / Message
+            soundPlay(1,0,"garrysmod/balloon_pop_cute.wav")
+            hint("End Of Train Device (EOTD) Un-Linked from Head Of Train Device (HOTD)",5)
+            hideChat(1)   
+        }
+        }
+}
+
+#---- Array Outputs
+
+#EOTDArray = array(LightToggle,FlagType,EOTDPsi,MPH,Acceleration,Skin1,Skin2,Skin3,Skin4,Skin5,CarCount,Emergency)
+EOTD_DATA_LINK_TX = array(Pressure,Acceleration,MPH,Emergency)
+HOTD_DATA_LINK = array(Pressure,Acceleration,MPH,Emergency,TotalBPVol,DataRX_Rate,DataTX_Rate,BrakePipeSmoothed,Fluctuation,ID_Code,FlowRate)
