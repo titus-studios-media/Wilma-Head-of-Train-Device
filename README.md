@@ -25,9 +25,9 @@ This is the "Version 2" of my previous HOTD E2, some of the improvements are;
 
 1. Click the "Clone or Download" button on the righthand side of the screen and select "Download Zip."
 2. Open the Zip file using a program like WinZip or WinRar, if it didn't open automatically.
-3. Navigate __INTO__ the "wilma-head-of-train-device-master" Folder. You should see two items: a file named "titus's_ultra_realistic_roller_&_weathering-e2.txt", and readme.md.
+3. Navigate __INTO__ the "wilma-head-of-train-device-master" Folder. You should see two items: a file named "titus's_wilma_head_of_train_device_(HOTD).txt", and readme.md.
 4. Extract the two folders directly into: `<Your active steam directory>\SteamApps\common\Garry's Mod\garrysmod\data\expression2\`.
-The file path should then look like `expression2\titus's_ultra_realistic_roller_&_weathering-e2.txt`.
+The file path should then look like `expression2\titus's_wilma_head_of_train_device_(HOTD).txt`.
 
 You will also need Magnums Train Models, Titus's Locomotive Sound Expansion Pack's Sound packs and Proppertextures for it to work correctly. There are seven:
 
