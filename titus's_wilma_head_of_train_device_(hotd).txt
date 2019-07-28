@@ -1,5 +1,5 @@
 @name Titus's Wilma Head of Train Device (HOTD)
-@inputs [RLCPT]:entity On Emergency [EOTD_DATA_LINK_RX]:array 
+@inputs [RLCPT]:entity On Emergency LocoEmrg [EOTD_DATA_LINK_RX]:array 
 @outputs Pressure Fluctuation BrakePipeSmoothed TotalBPVol Acceleration LocomotiveEmrgBrk [EOTD_DATA_LINK_TX HOTD_DATA_LINK]:array
 @persist BrakePipe RearPressureDecrease RearPressureFluctuationLevelOut RearPressureFluctuationMin RearPressureFluctuationMax DataTX_Rate DataRX_Rate SmoothTable:table Smooth DefaultVal ID:string FlowRate TotalBPVol
 @persist BrakePipeVol BPLevelOut Speed0 Speed1 Acceleration [PressureString AccelerationString]:string [ID_Code]:string CFM CarCount Linked
@@ -629,8 +629,10 @@ holoAng(14,entity():toWorld(ang(-17+(EOTD_DATA_LINK_RX[1,number] * 36),90,0)))
 
 #---- Radio Break Function
 
-if(On & !->EOTD_DATA_LINK_RX & EOTD_DATA_LINK_TX){
+if(!->EOTD_DATA_LINK_RX & !->EOTD_DATA_LINK_TX){
+if(On){
 E:radioBreak()
+}
 Linked = 0
 }
 
