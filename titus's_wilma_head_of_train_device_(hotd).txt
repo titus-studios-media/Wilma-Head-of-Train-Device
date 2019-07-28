@@ -717,4 +717,4 @@ if(Emergency | LocoEmrg){
 }
 #EOTDArray = array(LightToggle,FlagType,EOTDPsi,MPH,Acceleration,Skin1,Skin2,Skin3,Skin4,Skin5,CarCount,Emergency)
 EOTD_DATA_LINK_TX = array(Pressure,Acceleration,MPH,EmergencyArrayOut)
-HOTD_DATA_LINK = array(Pressure,Acceleration,MPH,Emergency,TotalBPVol,DataRX_Rate,DataTX_Rate,BrakePipeSmoothed,Fluctuation,ID_Code,FlowRate)
+HOTD_DATA_LINK = array(Pressure,Acceleration,MPH,Emergency,TotalBPVol,DataRX_Rate,DataTX_Rate,BrakePipeSmoothed,Fluctuation,ID_Code,FlowRate,EmergencyArrayOut,LocomotiveEmrgBrk)
