@@ -9,6 +9,8 @@
 E = entity()
 E:setAlpha(0)
 
+#E2 was made by Titus Studios Media Group, https://titusstudiosmediagroup.github.io/
+
 if(first() | dupefinished()){
     
 #---- Holo Data
