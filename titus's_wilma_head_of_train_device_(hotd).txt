@@ -11,7 +11,10 @@ E = entity()
 
 # Hi, here is what you can set up (Prefix Setting, Below!), if you would like. Try not to mess with whats below this, as I will not help you fix it.
 
-Prefix = "//"
+Prefix = "//" #Prefix for commands, ie, "//"link or "."link?
+
+
+#E2 was made by Titus Studios Media Group, https://titusstudiosmediagroup.github.io/
 
 if(dupefinished() | duped()){ reset() }
 if(first()){ 
